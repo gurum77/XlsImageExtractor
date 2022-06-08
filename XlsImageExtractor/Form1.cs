@@ -1,14 +1,10 @@
 ﻿using Ionic.Zip;
 using Manina.Windows.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Manina.Windows.Forms.ImageListView;
+using Manina.Windows.Forms.ImageListViewRenderers;
 
 namespace XlsImageExtractor
 {
@@ -16,28 +12,75 @@ namespace XlsImageExtractor
     {
         long totalBytes = 0;
         long totalTransferredBytes = 0;
-        enum Renderer
-        {
-            defaultRenderer,
-            xPRenderer,
-            tileRenderer,
 
-        }
-        
+
         public Form1()
         {
             InitializeComponent();
+
+            // 이걸 해줘야 광고가 나옴
+            InternetExplorerBrowserEmulation.SetBrowserEmulationVersion();
+
+            Translate();
         }
+
+        void Translate()
+        {
+            this.Text = LanguageHelper.Tr("XLS Image Extractor");
+            toolStripButtonOpen.Text = LanguageHelper.Tr("Open");
+            toolStripButtonSave.Text = LanguageHelper.Tr("Save");
+            toolStripLabelThumbnailSize.Text = LanguageHelper.Tr("Thumbnail Size");
+            toolStripLabelStyle.Text = LanguageHelper.Tr("Style");
+            toolStripLabelView.Text = LanguageHelper.Tr("View");
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            int panel2Size = 310;
+            
+            splitContainer1.Panel2MinSize = panel2Size;
+            splitContainer1.SplitterDistance = splitContainer1.Size.Width - panel2Size;
+            splitContainer1.FixedPanel = FixedPanel.Panel2;
+
+            var uri = new Uri("https://hileejaeho.cafe24.com/brviewer-plus-start-screen/");
+            webBrowser1.Navigate(uri);
+            
             InitSizeCombo();
             InitRendererCombo();
+
+            SetRenderer();
+
+            imageListView1.SelectionChanged += ImageListView1_SelectionChanged;
+        }
+
+        // 이미지 선택시 status 바 갱신
+        private void ImageListView1_SelectionChanged(object sender, EventArgs e)
+        {
+            UpdateMenu();
+            UpdateStatusBar();
+        }
+
+        private void UpdateStatusBar()
+        {
+            toolStripStatusLabelSelectionInfo.Text = $"{imageListView1.SelectedItems.Count} " + LanguageHelper.Tr("selected");   
+        }
+
+        void UpdateMenu()
+        {
+            toolStripButtonSave.Enabled = imageListView1.SelectedItems.Count > 0;
         }
 
         private void InitRendererCombo()
         {
-            toolStripComboBoxRenderer.Items.Add("Default");
+            toolStripComboBoxRenderer.Items.Clear();
+            toolStripComboBoxRenderer.Items.Add(LanguageHelper.Tr("Default"));
+            toolStripComboBoxRenderer.Items.Add(LanguageHelper.Tr("XP"));
+            toolStripComboBoxRenderer.Items.Add(LanguageHelper.Tr("Tile"));
+            toolStripComboBoxRenderer.Items.Add(LanguageHelper.Tr("Zooming"));
+            toolStripComboBoxRenderer.Items.Add(LanguageHelper.Tr("Noir"));
+
+            toolStripComboBoxRenderer.SelectedIndex = (int)Options.renderer;
         }
 
         private void InitSizeCombo()
@@ -132,14 +175,14 @@ namespace XlsImageExtractor
                 {
                     var fileNameOnly = System.IO.Path.GetFileName(item.FileName);
                     var targetFileName = System.IO.Path.Combine(dlg.SelectedPath, fileNameOnly);
-                    System.IO.File.Copy(item .FileName, targetFileName);
+                    System.IO.File.Copy(item.FileName, targetFileName);
                 }
 
-                MessageBox.Show("Completed!");
+                MessageBox.Show(LanguageHelper.Tr("Completed!"));
             }
             else
             {
-                MessageBox.Show("Cancelled!");
+                MessageBox.Show(LanguageHelper.Tr("Cancelled!"));
             }
 
         }
@@ -147,9 +190,104 @@ namespace XlsImageExtractor
         private void toolStripComboBoxSize_SelectedIndexChanged(object sender, EventArgs e)
         {
             int size = (int)toolStripComboBoxSize.SelectedItem;
-            
+
             imageListView1.ThumbnailSize = new Size(size, size);
             Options.thumbnailSize = size;
+        }
+
+        private void toolStripComboBoxRenderer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Options.renderer = (Options.Renderer)toolStripComboBoxRenderer.SelectedIndex;
+            SetRenderer();
+        }
+
+        private void SetRenderer()
+        {
+            ImageListViewRenderer renderer = null;
+            if (Options.renderer == Options.Renderer.defaultRenderer)
+                renderer = new DefaultRenderer();
+            else if (Options.renderer == Options.Renderer.xPRenderer)
+                renderer = new XPRenderer();
+            else if (Options.renderer == Options.Renderer.tileRenderer)
+                renderer = new TilesRenderer();
+            else if (Options.renderer == Options.Renderer.zoomingRenderer)
+                renderer = new ZoomingRenderer();
+            else if (Options.renderer == Options.Renderer.noirRenderer)
+                renderer = new NoirRenderer();
+
+            if (renderer == null)
+                return;
+            imageListView1.SetRenderer(renderer);
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            toolStripButtonOpen_Click(null, null);
+        }
+
+        private void toolStripButtonThumbnail_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
+        }
+
+        private void toolStripButtonGallery_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Gallery;
+        }
+
+        private void toolStripButtonPane_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Pane;
+        }
+
+        private void toolStripButtonDetail_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Details;
+            if (imageListView1.Columns.Count == 0)
+            {
+                imageListView1.Columns.Add(ColumnType.Name);
+                imageListView1.Columns.Add(ColumnType.Dimensions);
+                imageListView1.Columns.Add(ColumnType.FileSize);
+                imageListView1.Columns.Add(ColumnType.FolderName);
+                imageListView1.Columns.Add(ColumnType.DateModified);
+                imageListView1.Columns.Add(ColumnType.FileType);
+            }
+        }
+
+        private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
+        }
+
+        private void galleryToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Gallery;
+        }
+
+        private void paneToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Pane;
+        }
+
+        private void detailsToolStripButton_Click(object sender, EventArgs e)
+        {
+            imageListView1.View = Manina.Windows.Forms.View.Details;
+        }
+
+        private void toolStripButtonKorean_Click(object sender, EventArgs e)
+        {
+            Options.language = "ko-KR";
+            LanguageHelper.Load(Options.language);
+            Translate();
+            InitRendererCombo();
+        }
+
+        private void toolStripButtonEnglish_Click(object sender, EventArgs e)
+        {
+            Options.language = "en-US";
+            LanguageHelper.Load(Options.language);
+            Translate();
+            InitRendererCombo();
         }
     }
 }
