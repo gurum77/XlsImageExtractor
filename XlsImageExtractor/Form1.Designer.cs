@@ -47,12 +47,12 @@ namespace XlsImageExtractor
             this.galleryToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.paneToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.detailsToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButtonKorean = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonEnglish = new System.Windows.Forms.ToolStripButton();
+            this.imageListView1 = new Manina.Windows.Forms.ImageListView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -65,9 +65,9 @@ namespace XlsImageExtractor
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelSelectionInfo});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 526);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 535);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(905, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(967, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -100,7 +100,7 @@ namespace XlsImageExtractor
             this.toolStripButtonEnglish});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(905, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(967, 25);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -210,45 +210,6 @@ namespace XlsImageExtractor
             this.detailsToolStripButton.Text = "Details";
             this.detailsToolStripButton.Click += new System.EventHandler(this.detailsToolStripButton_Click);
             // 
-            // imageListView1
-            // 
-            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView1.Location = new System.Drawing.Point(0, 0);
-            this.imageListView1.Name = "imageListView1";
-            this.imageListView1.PersistentCacheDirectory = "";
-            this.imageListView1.PersistentCacheSize = ((long)(100));
-            this.imageListView1.Size = new System.Drawing.Size(682, 501);
-            this.imageListView1.TabIndex = 6;
-            this.imageListView1.UseWIC = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.imageListView1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
-            this.splitContainer1.Panel2MinSize = 150;
-            this.splitContainer1.Size = new System.Drawing.Size(905, 501);
-            this.splitContainer1.SplitterDistance = 682;
-            this.splitContainer1.TabIndex = 7;
-            // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.ScriptErrorsSuppressed = true;
-            this.webBrowser1.Size = new System.Drawing.Size(219, 501);
-            this.webBrowser1.TabIndex = 0;
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -276,11 +237,50 @@ namespace XlsImageExtractor
             this.toolStripButtonEnglish.ToolTipText = "영어";
             this.toolStripButtonEnglish.Click += new System.EventHandler(this.toolStripButtonEnglish_Click);
             // 
+            // imageListView1
+            // 
+            this.imageListView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView1.Location = new System.Drawing.Point(0, 0);
+            this.imageListView1.Name = "imageListView1";
+            this.imageListView1.PersistentCacheDirectory = "";
+            this.imageListView1.PersistentCacheSize = ((long)(100));
+            this.imageListView1.Size = new System.Drawing.Size(728, 510);
+            this.imageListView1.TabIndex = 6;
+            this.imageListView1.UseWIC = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.imageListView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
+            this.splitContainer1.Panel2MinSize = 150;
+            this.splitContainer1.Size = new System.Drawing.Size(967, 510);
+            this.splitContainer1.SplitterDistance = 728;
+            this.splitContainer1.TabIndex = 7;
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.ScriptErrorsSuppressed = true;
+            this.webBrowser1.Size = new System.Drawing.Size(235, 510);
+            this.webBrowser1.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(905, 548);
+            this.ClientSize = new System.Drawing.Size(967, 557);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);

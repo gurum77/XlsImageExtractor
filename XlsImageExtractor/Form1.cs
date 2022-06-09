@@ -38,12 +38,13 @@ namespace XlsImageExtractor
         private void Form1_Load(object sender, EventArgs e)
         {
             int panel2Size = 310;
-            
+            //int panel2Size = 400;
+
             splitContainer1.Panel2MinSize = panel2Size;
             splitContainer1.SplitterDistance = splitContainer1.Size.Width - panel2Size;
             splitContainer1.FixedPanel = FixedPanel.Panel2;
 
-            var uri = new Uri("https://hileejaeho.cafe24.com/brviewer-plus-start-screen/");
+            var uri = new Uri("https://hileejaeho.cafe24.com/xlsimageextractor-start-screen/");
             webBrowser1.Navigate(uri);
             
             InitSizeCombo();
@@ -224,36 +225,6 @@ namespace XlsImageExtractor
         {
             toolStripButtonOpen_Click(null, null);
         }
-
-        private void toolStripButtonThumbnail_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
-        }
-
-        private void toolStripButtonGallery_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Gallery;
-        }
-
-        private void toolStripButtonPane_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Pane;
-        }
-
-        private void toolStripButtonDetail_Click(object sender, EventArgs e)
-        {
-            imageListView1.View = Manina.Windows.Forms.View.Details;
-            if (imageListView1.Columns.Count == 0)
-            {
-                imageListView1.Columns.Add(ColumnType.Name);
-                imageListView1.Columns.Add(ColumnType.Dimensions);
-                imageListView1.Columns.Add(ColumnType.FileSize);
-                imageListView1.Columns.Add(ColumnType.FolderName);
-                imageListView1.Columns.Add(ColumnType.DateModified);
-                imageListView1.Columns.Add(ColumnType.FileType);
-            }
-        }
-
         private void thumbnailsToolStripButton_Click(object sender, EventArgs e)
         {
             imageListView1.View = Manina.Windows.Forms.View.Thumbnails;
@@ -272,6 +243,15 @@ namespace XlsImageExtractor
         private void detailsToolStripButton_Click(object sender, EventArgs e)
         {
             imageListView1.View = Manina.Windows.Forms.View.Details;
+            if (imageListView1.Columns.Count == 0)
+            {
+                imageListView1.Columns.Add(ColumnType.Name);
+                imageListView1.Columns.Add(ColumnType.Dimensions);
+                imageListView1.Columns.Add(ColumnType.FileSize);
+                imageListView1.Columns.Add(ColumnType.FolderName);
+                imageListView1.Columns.Add(ColumnType.DateModified);
+                imageListView1.Columns.Add(ColumnType.FileType);
+            }
         }
 
         private void toolStripButtonKorean_Click(object sender, EventArgs e)
